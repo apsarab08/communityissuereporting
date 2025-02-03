@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Report Issue{% endblock %}
+
+{% block content %}
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #c2c6c7;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: ##6b7072;
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Ensure it stays at the top */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #6b7072;
+    color: white;
+}
+
+.container {
+    margin-top: 70px; /* Add margin to ensure content doesn't overlap with the navbar */
+    padding: 20px;
+    background-color:#707970;
+}
+
+/* Additional styles for other elements */
+h2 {
+    text-align: center;
+    color: #f3f4f3;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #f3f4f3;
+}
+
+input[type="text"], textarea, select, input[type="file"] {
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+}
+
+input[type="text"]:focus, textarea:focus, select:focus, input[type="file"]:focus {
+    outline: none;
+    border-color: #789977;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #789977;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    width: auto;
+}
+
+button[type="submit"]:hover {
+    background-color: #789977;
+}
+
+.file-input-label {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.file-input-label:hover {
+    background-color: #45a049;
+}
+
+.file-input {
+    display: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+</style>
+
+<div class="container">
+    <h2>Report an Issue</h2>
+    <form action="{{ url_for('report_issue') }}" method="post" enctype="multipart/form-data">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="category">Category:</label>
+        <select id="category" name="category_id" required>
+            {% for category in categories %}
+            <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="images">Upload Images:</label>
+        <input type="file" id="images" name="images" multiple class="file-input">
+        <label for="images" class="file-input-label">Select Images</label>
+
+        <div class="form-actions">
+            <button type="submit">Report Issue</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

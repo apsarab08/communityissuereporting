@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <img src="{{ url_for('static', filename='uploads/finallogo.png') }}" alt="community" class="app-logo">
+    <h2>Welcome to the Community Issue Reporting System</h2>
+    <p>Our platform empowers citizens to take an active role in maintaining and improving their local communities. Whether it's reporting potholes, broken streetlights, or garbage collection issues, our system ensures that your voice is heard and action is taken promptly.</p>
+</div>
+
+<div class="slider-container">
+    <div class="slides">
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/s1.jpg') }}" alt="Slide 1"></div>
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/ss4.jpg') }}" alt="Slide 2"></div>
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/ss2.jpg') }}" alt="Slide 3"></div>
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/ss3.jpg') }}" alt="Slide 4"></div>
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/ss5.jpg') }}" alt="Slide 5"></div>
+        <div class="slide"><img src="{{ url_for('static', filename='uploads/ss6.jpg') }}" alt="Slide 6"></div>
+        <!-- Add more slides as needed -->
+    </div>
+
+    <!-- Navigation arrows -->
+    <button class="arrow prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="arrow next" onclick="moveSlide(1)">&#10095;</button>
+</div>
+
+<div class="awareness-section">
+    <h2>Join Us In Making a Difference</h2>
+    <ul>
+        <li>Community First: Engage with a platform designed to prioritize community well-being and safety.</li>
+        <li>Transparent Communication: Foster a culture of transparency and accountability between residents and local authorities.</li>
+        <li>Proactive Solutions: Be part of a proactive approach to community maintenance, ensuring a cleaner, safer environment for everyone.</li>
+        <!-- Add more awareness messages -->
+    </ul>
+</div>
+
+<script>
+    // JavaScript for sliding functionality
+    let slideIndex = 1;
+
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("slide");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (let slide of slides) {
+            slide.style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+
+    function moveSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Automatic slideshow
+    setInterval(() => {
+        moveSlide(1);
+    }, 2500);
+
+    // Show the first slide on page load
+    showSlides(slideIndex);
+</script>
+
+{% endblock %}
