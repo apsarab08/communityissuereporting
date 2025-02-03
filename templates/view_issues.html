@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}View Issues{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #cdbbbb;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #9c7878;
+        color: white;
+    }
+
+    table tbody tr:hover {
+        background-color: #e7d5d5;
+    }
+
+    table td a {
+        color: #9c7878;
+        text-decoration: none;
+    }
+
+    table td a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<h2>View Issues</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Reported Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for issue in issues %}
+        <tr>
+            <td>{{ issue.problem_id }}</td>
+            <td>{{ issue.description }}</td>
+            <td>{{ issue.location }}</td>
+            <td>{{ issue.status }}</td>
+            <td>{{ issue.category_name }}</td>
+            <td>{{ issue.reported_date }}</td>
+            <td><a href="{{ url_for('issue_details', issue_id=issue.problem_id) }}">Details</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

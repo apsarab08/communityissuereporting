@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="register-container">
+    <h2>Register</h2>
+    <form id="registerForm" method="post" class="register-form" action="{{ url_for('register') }}">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" name="role">
+                <option value="resident">Resident</option>
+                <option value="authority">Authority</option>
+            </select>
+        </div>
+        <button type="submit" class="register-button">Register</button>
+    </form>
+</div>
+
+<!-- Success Dialog Box -->
+<div id="successDialog" class="success-dialog" style="display: none;">
+    <p>Registration successful! Please log in.</p>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    // Prevent form submission for custom handling
+    event.preventDefault();
+
+    // Perform form submission via AJAX
+    var formData = new FormData(this);
+
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        if (response.ok) {
+            // Show the success dialog box
+            document.getElementById('successDialog').style.display = 'block';
+
+            // Redirect to login page after 3 seconds
+            setTimeout(() => {
+                window.location.href = '{{ url_for("login") }}';
+            }, 3000);
+        } else {
+            // Handle server-side errors here
+            alert('Registration failed. Please try again.');
+        }
+    }).catch(error => {
+        // Handle network errors here
+        console.error('Error:', error);
+    });
+});
+</script>
+
+{% endblock %}

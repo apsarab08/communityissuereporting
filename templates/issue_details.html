@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Issue Details{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<div class="issue-details-container">
+    <h2>Issue Details</h2>
+    <h3>Description: {{ issue.description }}</h3>
+    <p>Location: {{ issue.location }}</p>
+    <p>Status: {{ issue.status }}</p>
+    <p>Reported Date: {{ issue.reported_date }}</p>
+    <p>Category: {{ issue.category_name }}</p>
+    <p>Reported By: {{ issue.reported_by_name }}</p>
+
+    {% if issue.images %}
+        <h3>Images</h3>
+        <div class="issue-images">
+            {% for image in issue.images.split(',') %}
+                <img src="{{ url_for('static', filename='uploads/' ~ image) }}" alt="Issue Image" class="issue-image">
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No images.</p>
+    {% endif %}
+
+    <h3>Comments</h3>
+    <ul class="comments-list">
+        {% for comment in comments %}
+            <li class="comment-item">
+                <div class="comment-text">
+                    <p><strong>{{ comment.commenter_name }}:</strong> {{ comment.comment_text }}</p>
+                    <p><small>{{ comment.comment_date }}</small></p>
+
+                    {% if 'user' in session and session['user']['user_id'] == comment.user_id %}
+                        <form action="{{ url_for('delete_comment', comment_id=comment.comment_id) }}" method="post">
+                            <button type="submit" class="delete-comment-btn">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Add a Comment</h3>
+    <form action="{{ url_for('add_comment', issue_id=issue.problem_id) }}" method="post" class="add-comment-form">
+        <label for="comment_text">Comment:</label><br>
+        <textarea id="comment_text" name="comment_text" rows="4" cols="50" required></textarea><br>
+        <button type="submit" class="add-comment-btn">Add Comment</button>
+    </form>
+
+    {% if 'user' in session and session['user']['user_id'] == issue.user_id %}
+        <h3>Delete Issue</h3>
+        <form action="{{ url_for('delete_issue', issue_id=issue.problem_id) }}" method="post" class="delete-issue-form">
+            <button type="submit" class="delete-issue-btn">Delete Issue</button>
+        </form>
+    {% endif %}
+    {% if 'authority' in session['user']['role'] %}
+    <h3>Update Status</h3>
+    <form action="{{ url_for('update_status', issue_id=issue.problem_id) }}" method="post" class="update-status-form">
+        <label for="status">New Status:</label>
+        <input type="text" id="status" name="status" required>
+        <button type="submit" class="update-status-btn">Update Status</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}
